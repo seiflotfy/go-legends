@@ -1,0 +1,96 @@
+{
+  "id": "goreview",
+  "name": "GoLegends",
+  "language": "Go",
+  "defaultJudges": [
+    "rsc",
+    "bradfitz",
+    "robpike"
+  ],
+  "conflictPriority": [
+    "bradfitz",
+    "filosottile",
+    "rsc",
+    "mitchellh",
+    "kamstrup",
+    "robpike",
+    "peterbourgon",
+    "armon",
+    "tsenart",
+    "rakyll",
+    "dgryski"
+  ],
+  "fixer": "fixer",
+  "verification": "run Go formatting plus scoped go build, go test, and go vet for every affected package",
+  "selectionHint": "prefer rsc for public or persisted contracts, bradfitz for untrusted input, filosottile for trust boundaries, mitchellh for component boundaries and ownership, kamstrup for sibling repetition and reuse, peterbourgon for services, armon for coordination, tsenart for load paths, dgryski for performance claims, rakyll for production diagnosis, and robpike for simplicity",
+  "defaultMaxReviewRounds": 5,
+  "maxAllowedReviewRounds": 10,
+  "judges": [
+    {
+      "label": "robpike",
+      "displayName": "Rob Pike",
+      "lens": "Simplicity",
+      "path": "judges/robpike.md"
+    },
+    {
+      "label": "bradfitz",
+      "displayName": "Brad Fitzpatrick",
+      "lens": "Safety",
+      "path": "judges/bradfitz.md"
+    },
+    {
+      "label": "rsc",
+      "displayName": "Russ Cox",
+      "lens": "Longevity",
+      "path": "judges/rsc.md"
+    },
+    {
+      "label": "mitchellh",
+      "displayName": "Mitchell Hashimoto",
+      "lens": "Composition & Boundaries",
+      "path": "judges/mitchellh.md"
+    },
+    {
+      "label": "kamstrup",
+      "displayName": "Mikkel Kamstrup Erlandsen",
+      "lens": "Composition & Reuse",
+      "path": "judges/kamstrup.md"
+    },
+    {
+      "label": "peterbourgon",
+      "displayName": "Peter Bourgon",
+      "lens": "Operability",
+      "path": "judges/peterbourgon.md"
+    },
+    {
+      "label": "armon",
+      "displayName": "Armon Dadgar",
+      "lens": "Distributed Correctness",
+      "path": "judges/armon.md"
+    },
+    {
+      "label": "tsenart",
+      "displayName": "Tomás Senart",
+      "lens": "Behavior Under Load",
+      "path": "judges/tsenart.md"
+    },
+    {
+      "label": "dgryski",
+      "displayName": "Damian Gryski",
+      "lens": "Measured Performance",
+      "path": "judges/dgryski.md"
+    },
+    {
+      "label": "filosottile",
+      "displayName": "Filippo Valsorda",
+      "lens": "Security Posture",
+      "path": "judges/filosottile.md"
+    },
+    {
+      "label": "rakyll",
+      "displayName": "Jaana Dogan",
+      "lens": "Profiling & Diagnosability",
+      "path": "judges/rakyll.md"
+    }
+  ]
+}
