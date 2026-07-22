@@ -1,0 +1,38 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "goreview",
+  "version": "0.1.0",
+  "description": "Named Go engineering perspectives review code with cited deductions, deliberated fixes, and verified verdicts.",
+  "author": {
+    "name": "Seif Lotfy",
+    "email": "seif@axiom.co",
+    "url": "https://github.com/seiflotfy"
+  },
+  "homepage": "https://github.com/axiomhq/go-legends",
+  "repository": "https://github.com/axiomhq/go-legends",
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "go",
+    "golang",
+    "judges",
+    "deductions",
+    "deliberation",
+    "autofix",
+    "workflow"
+  ],
+  "agents": [
+    "./judges/armon.md",
+    "./judges/bradfitz.md",
+    "./judges/dgryski.md",
+    "./judges/filosottile.md",
+    "./judges/kamstrup.md",
+    "./judges/mitchellh.md",
+    "./judges/peterbourgon.md",
+    "./judges/rakyll.md",
+    "./judges/robpike.md",
+    "./judges/rsc.md",
+    "./judges/tsenart.md",
+    "./fixer.md"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "go-legends",
+  "interface": {
+    "displayName": "GoLegends"
+  },
+  "plugins": [
+    {
+      "name": "goreview",
+      "source": {
+        "source": "local",
+        "path": "./plugins/goreview"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Engineering"
+    }
+  ]
+}

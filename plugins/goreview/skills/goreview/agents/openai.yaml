@@ -1,0 +1,4 @@
+interface:
+  display_name: "GoLegends"
+  short_description: "Named Go judges explain every deduction"
+  default_prompt: "Use $goreview to review my current Go diff."

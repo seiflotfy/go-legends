@@ -1,0 +1,42 @@
+{
+  "name": "goreview",
+  "version": "0.1.0",
+  "description": "Named Go engineering perspectives review code with cited deductions, deliberated fixes, and verified verdicts.",
+  "author": {
+    "name": "Seif Lotfy",
+    "email": "seif@axiom.co",
+    "url": "https://github.com/seiflotfy"
+  },
+  "homepage": "https://github.com/axiomhq/go-legends",
+  "repository": "https://github.com/axiomhq/go-legends",
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "go",
+    "golang",
+    "multi-agent",
+    "judges",
+    "deductions",
+    "autofix",
+    "developer-tools"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "GoLegends",
+    "shortDescription": "Named Go judges explain every deduction",
+    "longDescription": "Run independent named Go engineering perspectives over a change, receive cited deduction scorecards, and optionally deliberate, fix, verify, and re-review.",
+    "developerName": "Seif Lotfy",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Multi-agent",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/axiomhq/go-legends",
+    "defaultPrompt": [
+      "Use GoLegends to review my current Go diff.",
+      "Use GoLegends to fix issues in my current Go diff.",
+      "List the available GoLegends judges."
+    ]
+  }
+}

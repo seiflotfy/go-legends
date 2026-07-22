@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "go-legends",
+  "description": "Named Go engineering perspectives review code with cited deductions and guarded fixes.",
+  "owner": {
+    "name": "Seif Lotfy",
+    "email": "seif@axiom.co"
+  },
+  "plugins": [
+    {
+      "name": "goreview",
+      "description": "Independent named Go judges produce cited deduction scorecards and optionally deliberate, fix, verify, and re-review.",
+      "author": {
+        "name": "Seif Lotfy",
+        "email": "seif@axiom.co"
+      },
+      "category": "development",
+      "source": "./plugins/goreview"
+    }
+  ]
+}
