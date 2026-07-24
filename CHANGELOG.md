@@ -2,6 +2,21 @@
 
 All notable changes to GoLegends are documented here.
 
+## Unreleased
+
+### Changed
+
+- Fixer policy (now `Version: 2`) covers removing and replacing code: a test may
+  only be deleted when its subject is gone, a fallback or dual-write needs a
+  named reader, one fact is written in exactly one representation, and a deleted
+  symbol's name is cleared from comments, docs, and runtime strings.
+- Rob Pike's method reads the migration, backfill, constraint, or deploy
+  ordering governing a retained compatibility path, so a branch whose state is
+  already excluded reaches the deletion test.
+- Russ Cox's method checks whether a fact being moved is still written or read
+  in its old representation, and treats a promise whose only test the change
+  deletes as no longer pinned.
+
 ## 0.3.0 — 2026-07-24
 
 ### Added

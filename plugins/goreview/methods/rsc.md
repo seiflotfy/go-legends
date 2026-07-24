@@ -16,15 +16,24 @@ contract analysis.
    mixed-version processes.
 4. Trace unknown fields, missing fields, zero values, version markers,
    ordering, and defaults. Verify that one deterministic rule decides each.
-5. Search for every consumer and persisted sample. Check whether a local edit
+5. When the change moves a fact to a new representation, check whether the old
+   one is still written or still read. Two live representations of one fact can
+   disagree, and a reader left on the old one silently keeps the old meaning;
+   locate that reader before accepting either as retired.
+6. Search for every consumer and persisted sample. Check whether a local edit
    has silently changed behavior at a distant boundary.
-6. Identify the next plausible evolution and ask whether it can be added
+7. Identify the next plausible evolution and ask whether it can be added
    without reinterpreting existing data or breaking existing callers.
-7. Confirm the tests pin the promise rather than the current implementation.
+8. Confirm the tests pin the promise rather than the current implementation. When
+   the change deletes tests, check each deleted case against the behavior that
+   survives: a promise whose only test was removed is no longer pinned.
 
 ## Evidence to seek
 
 - A named public or persisted contract and the exact old/new behavior.
+- The writer and the reader of each representation when a fact is being moved,
+  so a retired form is shown retired rather than assumed so.
+- The surviving test for a promise whose original test the change deletes.
 - Compatibility tests or fixtures that cross versions, not only round-trip the
   same implementation against itself.
 - Deterministic ordering only where a cited consumer or the documented

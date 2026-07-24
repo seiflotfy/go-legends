@@ -1,6 +1,6 @@
 # Default Go fixer policy
 
-Version: 1
+Version: 2
 
 This policy guides the write-capable fixer after the judges have produced a
 cited deduction plan. It is never supplied to judges, never creates a
@@ -47,6 +47,22 @@ increments it.
   real work in `init()`.
 - Cross-node operations are idempotent or guarded by a version, CAS, lease, or
   equivalent recovery mechanism. Do not use wall-clock time for ordering.
+
+## Removing and replacing code
+
+- Deleting a test is only correct when its subject is also gone. Before removing
+  a test, list the behaviors it asserts; for each one that still exists after the
+  edit, name the surviving test that covers it. When the behavior moved to a
+  replacement path and nothing covers it there, add that coverage as part of the
+  edit rather than leaving the guarantee unheld.
+- Do not add a fallback, dual-write, or transitional decoder without naming the
+  reader that needs it. A migration that backfills every row, a NOT NULL
+  constraint, or a documented deploy ordering already excludes the state such a
+  path would handle, so the path is dead on arrival.
+- When a change moves a fact to a new representation, write exactly one of them.
+  Leaving the old and new form both written lets the two disagree later.
+- After deleting a symbol, search comments, documentation, error strings, and
+  panic messages for its name so the prose does not outlive the code.
 
 ## Tests, performance, and diagnostics
 

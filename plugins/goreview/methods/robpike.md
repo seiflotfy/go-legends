@@ -18,10 +18,15 @@ owns deductions; this file owns the order of investigation.
 5. Run the deletion test: remove each new concept mentally and replace it with
    concrete code at the call site. Keep the concept only when the replacement
    loses real behavior or makes the data flow harder to see.
-6. Run the one-file test: identify the smallest set of files a maintainer must
+6. For every fallback, transitional decoder, or "during a rolling deploy"
+   branch the change keeps, name the state it handles and then read the
+   migration, backfill, constraint, or documented deploy ordering that governs
+   that state. A path whose state is already excluded cannot execute, so the
+   deletion test applies to it with nothing lost.
+7. Run the one-file test: identify the smallest set of files a maintainer must
    read to explain the behavior. Treat avoidable cross-file control flow as
    complexity, not organization.
-7. Name the smallest honest shape of the change before considering a
+8. Name the smallest honest shape of the change before considering a
    deduction.
 
 ## Evidence to seek
@@ -33,6 +38,8 @@ owns deductions; this file owns the order of investigation.
   callbacks, or runtime type dispatch.
 - Code that can be deleted while preserving the behavior requested by tests
   and callers.
+- The migration, backfill, constraint, or deploy ordering that already excludes
+  the state a retained compatibility path claims to handle.
 
 ## Stop condition
 
