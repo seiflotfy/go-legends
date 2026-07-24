@@ -110,23 +110,28 @@ GoLegends fix cycle, stop with `SNAPSHOT_CHANGED`.
    never consulted. It resolves only actual conflicts using `conflictPolicy`.
    More than 24 cited code findings is too broad for automatic planning and
    stops before editing.
-5. Every planned change names file, symbol, exact behavior to change, behavior
+5. If every actionable code-finding fingerprint is explicitly withdrawn by
+   its owner, return `NO_CHANGE` with each withdrawn fingerprint and the
+   reasons. The chair cannot withdraw a finding itself. Do not invoke the
+   fixer, verifier, or re-review on this path, and do not reinterpret the
+   original failing scorecards as `ACCEPTED`.
+6. Every planned change names file, symbol, exact behavior to change, behavior
    that must not change, and finding fingerprint. Stop before editing if a
    design decision remains.
-6. Give `policy.md` only to the single write-capable fixer. The fixer applies
+7. Give `policy.md` only to the single write-capable fixer. The fixer applies
    only the chaired plan and reports edits; it does not verify its own work.
-7. An independent verifier runs exactly the configured scope, `gofmt -d`,
+8. An independent verifier runs exactly the configured scope, `gofmt -d`,
    scoped build, test, and vet checks with bounded commands. It records command,
    exit code, concise output, changed files, and out-of-scope files.
-8. Verification succeeds only when each required check appears exactly once
+9. Verification succeeds only when each required check appears exactly once
    with exit code zero, no out-of-scope file exists, and a complete next
    immutable snapshot is captured.
-9. After verified edits, every selected judge re-reviews the new snapshot.
-10. Track severity weights and finding fingerprints across rounds. Stop on
+10. After verified edits, every selected judge re-reviews the new snapshot.
+11. Track severity weights and finding fingerprints across rounds. Stop on
    repeated finding sets as `OSCILLATION`, three rising risk-weight rounds as
    `SCOPE_EXPLOSION`, failed verification as `FIX_FAILED`, insufficient budget
    before writing as `BUDGET_EXHAUSTED`, or the configured limit as `STALL`.
-11. The final configured review round never edits.
+12. The final configured review round never edits.
 
 ## Result
 
@@ -140,6 +145,7 @@ Only `ACCEPTED` is a pass. Defined non-pass verdicts are:
 - `INSUFFICIENT_COVERAGE`
 - `REVIEW_ONLY`
 - `EVIDENCE_REQUIRED`
+- `NO_CHANGE`
 - `JUDGES_UNAVAILABLE`
 - `BUDGET_EXHAUSTED`
 - `FIX_FAILED`

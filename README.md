@@ -132,11 +132,14 @@ default of three. The hard range is 2–6. The final round never edits.
 2. Only when cited requests concretely conflict does the chair ask up to three
    finding owners one narrow question each. Passing and uninvolved judges are
    not respawned.
-3. One fixer applies only that plan using `policy.md`.
-4. An independent verifier—not the fixer—checks changed-file scope,
+3. If every actionable request is explicitly withdrawn by its finding owner,
+   GoLegends returns `NO_CHANGE` without editing, verification, or re-review.
+   The chair cannot withdraw findings by itself.
+4. One fixer applies only a remaining plan using `policy.md`.
+5. An independent verifier—not the fixer—checks changed-file scope,
    `gofmt -d`, and scoped build, test, and vet commands with exact exit codes.
-5. The verifier captures the next immutable snapshot.
-6. Every selected judge re-reviews that snapshot.
+6. The verifier captures the next immutable snapshot.
+7. Every selected judge re-reviews that snapshot.
 
 Finding fingerprints and severity weight track progress. A repeated finding set
 returns `OSCILLATION`; rising risk returns `SCOPE_EXPLOSION`. Verification

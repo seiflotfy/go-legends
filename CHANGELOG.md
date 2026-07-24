@@ -2,6 +2,19 @@
 
 All notable changes to GoLegends are documented here.
 
+## 0.2.2 — 2026-07-24
+
+### Added
+
+- A validated `NO_CHANGE` deliberation outcome when every actionable
+  fingerprint is explicitly withdrawn by its finding owner.
+
+### Changed
+
+- No-change deliberations skip the fixer, verifier, and re-review.
+- Budget gates now reserve the initial chair, targeted consultations, and edit
+  cycle separately so a no-change outcome does not require edit-cycle budget.
+
 ## 0.2.1 — 2026-07-24
 
 ### Changed

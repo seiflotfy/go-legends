@@ -18,6 +18,8 @@ Produce a plan directly when the evidence is sufficient. Ask only the owner of
 a conflicting finding one narrow question when a concrete incompatibility or
 disputed high-severity request cannot be resolved from the cited evidence.
 Never ask passing, N/A, or otherwise uninvolved judges to deliberate.
+Return `NO_CHANGE` only after every actionable finding fingerprint has been
+explicitly withdrawn by its owner. You cannot withdraw a finding yourself.
 
 Produce one minimal plan. Every planned change must name:
 

@@ -117,7 +117,7 @@ When verification occurred, print the required check IDs and whether all
 passed. In fix mode print fixer-policy provenance.
 
 Print `ACCEPTED` only for that exact verdict. Handle
-`INSUFFICIENT_COVERAGE`, `REVIEW_ONLY`, `EVIDENCE_REQUIRED`, `JUDGES_UNAVAILABLE`,
+`INSUFFICIENT_COVERAGE`, `REVIEW_ONLY`, `EVIDENCE_REQUIRED`, `NO_CHANGE`, `JUDGES_UNAVAILABLE`,
 `BUDGET_EXHAUSTED`, `FIX_FAILED`, `OSCILLATION`, `SCOPE_EXPLOSION`, `STALL`,
 `SNAPSHOT_CHANGED`, and `INVALID_REQUEST` according to the protocol. Unknown
 verdicts print `UNKNOWN` and stop.

@@ -460,6 +460,131 @@ test('the chair consults only the finding owner needed to resolve a concrete con
   assert.equal(labels.filter(label => label.startsWith('chair')).length, 2)
 })
 
+test('all actionable finding owners can withdraw their requests without editing files', async () => {
+  const labels = []
+  const finding = deduction('robpike')
+  const fingerprint = `robpike:${finding.ruleId}:pkg/example.go:Open:3`
+  const result = await run({
+    args: { ...fixArgs, judges: [{ label: 'robpike' }], maxReviewRounds: 3, roundCostPerSeat: 10 },
+    budget: { remaining: () => 20 },
+    agent: async (_prompt, options) => {
+      labels.push(options.label)
+      if (options.label === 'judge:robpike') return review('robpike', [finding])
+      if (options.label === 'chair:chair') {
+        return {
+          status: 'CONSULT',
+          plan: '',
+          resolvedDisagreements: [],
+          consultations: [{
+            seat: 'robpike',
+            fingerprints: [fingerprint],
+            question: 'Does this finding still require a code change after reconciliation?',
+          }],
+          blockers: [],
+        }
+      }
+      if (options.label === 'consult:robpike') {
+        return {
+          position: 'WITHDRAW',
+          proposal: 'Make no code change for this finding.',
+          rationale: 'The cited request is redundant after reconciliation.',
+        }
+      }
+      if (options.label === 'chair-final:chair') {
+        return {
+          status: 'NO_CHANGE',
+          plan: '',
+          resolvedDisagreements: ['The sole actionable fingerprint was explicitly withdrawn by its owner.'],
+          consultations: [],
+          blockers: [],
+        }
+      }
+      throw new Error(`unexpected ${options.label}`)
+    },
+  })
+
+  assert.equal(result.verdict, 'NO_CHANGE')
+  assert.equal(result.reviewRounds, 1)
+  assert.equal(result.fixAttempts, 0)
+  assert.deepEqual(result.withdrawnFingerprints, [fingerprint])
+  assert.deepEqual(result.history[0].deliberation.consultedJudges, ['robpike'])
+  assert.equal(result.history[0].deliberation.status, 'no-change')
+  assert.equal(labels.includes('fix'), false)
+  assert.equal(labels.includes('verify:verifier'), false)
+})
+
+test('the chair cannot declare no change without explicit owner withdrawals', async () => {
+  let calls = 0
+  const result = await run({
+    args: { ...fixArgs, judges: [{ label: 'robpike' }], maxReviewRounds: 3, roundCostPerSeat: 0 },
+    agent: async (_prompt, options) => {
+      calls++
+      if (options.label === 'judge:robpike') return review('robpike', [deduction('robpike')])
+      if (options.label === 'chair:chair') {
+        return {
+          status: 'NO_CHANGE',
+          plan: '',
+          resolvedDisagreements: ['The chair alone considers the finding unnecessary.'],
+          consultations: [],
+          blockers: [],
+        }
+      }
+      throw new Error(`unexpected ${options.label}`)
+    },
+  })
+
+  assert.equal(result.verdict, 'JUDGES_UNAVAILABLE')
+  assert.equal(result.unavailablePhase, 'Deliberate')
+  assert.match(result.seatErrors[0].error, /before consulting every finding owner/)
+  assert.equal(result.fixAttempts, 0)
+  assert.equal(calls, 2)
+})
+
+test('a final no-change decision must cover every fingerprint with a withdrawal', async () => {
+  const finding = deduction('robpike')
+  const fingerprint = `robpike:${finding.ruleId}:pkg/example.go:Open:3`
+  const result = await run({
+    args: { ...fixArgs, judges: [{ label: 'robpike' }], maxReviewRounds: 3, roundCostPerSeat: 0 },
+    agent: async (_prompt, options) => {
+      if (options.label === 'judge:robpike') return review('robpike', [finding])
+      if (options.label === 'chair:chair') {
+        return {
+          status: 'CONSULT',
+          plan: '',
+          resolvedDisagreements: [],
+          consultations: [{
+            seat: 'robpike',
+            fingerprints: [fingerprint],
+            question: 'Should this finding remain in the fix plan?',
+          }],
+          blockers: [],
+        }
+      }
+      if (options.label === 'consult:robpike') {
+        return {
+          position: 'KEEP',
+          proposal: 'Keep the cited request.',
+          rationale: 'The invariant remains violated.',
+        }
+      }
+      if (options.label === 'chair-final:chair') {
+        return {
+          status: 'NO_CHANGE',
+          plan: '',
+          resolvedDisagreements: ['The chair wants no edit despite the retained request.'],
+          consultations: [],
+          blockers: [],
+        }
+      }
+      throw new Error(`unexpected ${options.label}`)
+    },
+  })
+
+  assert.equal(result.verdict, 'JUDGES_UNAVAILABLE')
+  assert.match(result.seatErrors[0].error, /without owner withdrawals for every actionable fingerprint/)
+  assert.equal(result.fixAttempts, 0)
+})
+
 test('fix mode stops on independent verification failure and repeated finding oscillation', async () => {
   const failedVerification = await run({
     args: { ...fixArgs, judges: [{ label: 'robpike' }], maxReviewRounds: 3, roundCostPerSeat: 0 },

@@ -74,6 +74,8 @@ failing rule-authorized findings
               │
               ├──── conflict only ───► consult ≤3 finding owners
               │
+              ├──── all withdrawn ───► NO_CHANGE
+              │
               ▼
        chair produces one plan
               │

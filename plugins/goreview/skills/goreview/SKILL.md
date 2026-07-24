@@ -75,12 +75,15 @@ findings into the fix plan; a later re-review may hand off remaining evidence.
    review context.
 2. Only when the chair identifies a concrete incompatibility may it consult up
    to three owners of the conflicting findings, one narrow question each.
-3. Load `policy.md` only for one write-capable fixer.
-4. The fixer applies only the chaired plan and does not verify itself.
-5. An independent verifier runs exact scope, `gofmt -d`, scoped build, test,
+3. Return `NO_CHANGE` without a fixer, verifier, or re-review only when every
+   actionable fingerprint was explicitly withdrawn by its finding owner. The
+   chair cannot withdraw findings or call the result `ACCEPTED`.
+4. Load `policy.md` only for one write-capable fixer.
+5. The fixer applies only the chaired plan and does not verify itself.
+6. An independent verifier runs exact scope, `gofmt -d`, scoped build, test,
    and vet checks with bounded commands, checks changed-file scope, and captures
    the next snapshot.
-6. Re-run every judge on the verified snapshot.
+7. Re-run every judge on the verified snapshot.
 
 Track finding fingerprints and severity weight. Stop on repeated finding sets,
 rising risk, failed verification, budget exhaustion, or round limit. The final
@@ -97,6 +100,6 @@ fix attempts, snapshot hash, model, and config hashes. Report neutral
 deliberation, independent checks, and fixer-policy provenance compactly.
 
 Only exact `ACCEPTED` passes. Preserve every protocol verdict including
-`INSUFFICIENT_COVERAGE`, `EVIDENCE_REQUIRED`, and `OSCILLATION`. Do not add a
+`INSUFFICIENT_COVERAGE`, `EVIDENCE_REQUIRED`, `NO_CHANGE`, and `OSCILLATION`. Do not add a
 narrative postmortem or claim that a named judge personally participated in or
 endorsed the review.
